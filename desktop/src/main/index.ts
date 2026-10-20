@@ -7,6 +7,7 @@ import icon from '../../resources/icon.png?asset'
 import * as events from './events'
 
 console.error = log.error
+log.initialize()
 
 let mainWindow: BrowserWindow
 

@@ -1,6 +1,8 @@
 import { ipcMain, IpcMainInvokeEvent } from 'electron'
 import { SerialPort } from 'serialport'
 
+import log from 'electron-log/main'
+
 import { IpcEvents } from '../../common/ipc-events'
 import { device } from '../device'
 import { fakeSerialPort } from '../device/fake-serial-port'
@@ -9,6 +11,7 @@ let isTestMode = false
 let echoTarget: Electron.WebContents | null = null
 
 fakeSerialPort.setEchoListener((text) => {
+  log.info('[test-mode] echo:', JSON.stringify(text).slice(0, 120))
   if (isTestMode && echoTarget && !echoTarget.isDestroyed()) {
     echoTarget.send(IpcEvents.TEST_MODE_ECHO, text)
   }
@@ -21,6 +24,7 @@ export function registerSerialPort(): void {
   ipcMain.handle(IpcEvents.SEND_KEYBOARD, sendKeyboard)
   ipcMain.handle(IpcEvents.SEND_MOUSE, sendMouse)
   ipcMain.handle(IpcEvents.SET_TEST_MODE, (_e, enabled: boolean) => {
+    log.info('[test-mode] SET_TEST_MODE ->', enabled)
     isTestMode = enabled
     if (enabled) {
       echoTarget = _e.sender
@@ -57,6 +61,7 @@ async function openSerialPort(
   baudRate: number = 57600
 ): Promise<boolean> {
   if (isTestMode) {
+    log.info('[test-mode] openSerialPort (fake)')
     echoTarget = e.sender
     await device.serialPort.init({ path, baudRate, onDisconnect: () => {} }, fakeSerialPort)
     e.sender.send(IpcEvents.OPEN_SERIAL_PORT_RSP, '')

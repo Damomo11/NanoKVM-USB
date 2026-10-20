@@ -8,3 +8,7 @@
 *.njsproj
 *.sln
 *.sw?
+dist-test/
+desktop/dist/
+desktop/dist-base/
+
