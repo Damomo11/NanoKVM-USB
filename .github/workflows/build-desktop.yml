@@ -16,18 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 11
-
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: desktop/pnpm-lock.yaml
+          node-version: 20
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm install
         env:
           ELECTRON_MIRROR: https://cdn.npmmirror.com/binaries/electron/
 
@@ -37,9 +31,10 @@ jobs:
       - name: Build (electron-vite)
         run: npm run build
 
-      - name: Package (electron-builder, portable dir)
-        run: npx electron-builder --win --x64
+      - name: Package (electron-builder installer)
+        run: npm run build:win
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ELECTRON_BUILDER_BINARIES_MIRROR: https://cdn.npmmirror.com/binaries/electron-builder-binaries/
 
       - name: Upload installer artifact
