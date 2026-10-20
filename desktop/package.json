@@ -50,6 +50,7 @@
     "@electron/notarize": "^2.5.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@types/node": "^22.13.4",
+    "@types/prop-types": "^15.7.15",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
