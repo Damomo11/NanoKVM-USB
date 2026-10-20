@@ -37,8 +37,29 @@ const ru = {
         cancel: 'Отмена'
       }
     },
+    debug: {
+          title: 'Test mode',
+          titleOff: 'Test mode',
+          terminal: 'Test console (no hardware)',
+          hint: 'Keyboard output is echoed to this console instead of real hardware.',
+          localInput: 'local input',
+          echoOn: 'echo ON',
+          exit: 'Exit test mode'
+        },
     keyboard: {
       paste: 'Вставить текст',
+      pasteDialog: {
+              title: 'Paste to target machine',
+              preview: 'Text preview (editable)',
+              empty: 'Clipboard is empty. Type or paste text here.',
+              speed: 'Typing speed',
+              perKey: 'per key',
+              fast: 'Fast',
+              slow: 'Slow (for BIOS / login screens)',
+              send: 'Send',
+              cancel: 'Cancel',
+              sending: 'Sending…'
+            },
       virtualKeyboard: 'Виртуальная клавиатура',
       shortcut: {
         title: 'Сочетания клавиш',
@@ -69,6 +90,9 @@ const ru = {
     },
     settings: {
       title: 'Настройки',
+        testmode: {
+          title: 'Test mode'
+        },
       appearance: {
         title: 'Внешний вид',
         language: 'Язык приложения',

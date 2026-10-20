@@ -3,6 +3,16 @@ import { SerialPort } from 'serialport'
 
 import { IpcEvents } from '../../common/ipc-events'
 import { device } from '../device'
+import { fakeSerialPort } from '../device/fake-serial-port'
+
+let isTestMode = false
+let echoTarget: Electron.WebContents | null = null
+
+fakeSerialPort.setEchoListener((text) => {
+  if (isTestMode && echoTarget && !echoTarget.isDestroyed()) {
+    echoTarget.send(IpcEvents.TEST_MODE_ECHO, text)
+  }
+})
 
 export function registerSerialPort(): void {
   ipcMain.handle(IpcEvents.GET_SERIAL_PORTS, getSerialPorts)
@@ -10,9 +20,19 @@ export function registerSerialPort(): void {
   ipcMain.handle(IpcEvents.CLOSE_SERIAL_PORT, closeSerialPort)
   ipcMain.handle(IpcEvents.SEND_KEYBOARD, sendKeyboard)
   ipcMain.handle(IpcEvents.SEND_MOUSE, sendMouse)
+  ipcMain.handle(IpcEvents.SET_TEST_MODE, (_e, enabled: boolean) => {
+    isTestMode = enabled
+    if (enabled) {
+      echoTarget = _e.sender
+    }
+    return true
+  })
 }
 
 async function getSerialPorts(): Promise<string[]> {
+  if (isTestMode) {
+    return ['TEST-MODE (virtual)']
+  }
   try {
     const ports = await SerialPort.list()
     const paths = ports.map((port) => port.path)
@@ -36,6 +56,13 @@ async function openSerialPort(
   path: string,
   baudRate: number = 57600
 ): Promise<boolean> {
+  if (isTestMode) {
+    echoTarget = e.sender
+    await device.serialPort.init({ path, baudRate, onDisconnect: () => {} }, fakeSerialPort)
+    e.sender.send(IpcEvents.OPEN_SERIAL_PORT_RSP, '')
+    return true
+  }
+
   try {
     const onDisconnect = () => {
       e.sender.send(IpcEvents.SERIAL_PORT_DISCONNECTED)

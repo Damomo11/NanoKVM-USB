@@ -43,9 +43,30 @@ const zh = {
       viewDoc: '查看文档。',
       ok: '确定'
     },
-    kkeyboard: {
+    debug: {
+      title: '测试模式',
+      titleOff: '测试模式',
+      terminal: '测试控制台（无需硬件）',
+      hint: '键盘输出会回显到此控制台，不会发给真实硬件。',
+      localInput: '本地输入',
+      echoOn: '回显开启',
+      exit: '退出测试模式'
+    },
+    keyboard: {
       paste: '粘贴',
       virtualKeyboard: '虚拟键盘',
+      pasteDialog: {
+        title: '粘贴到目标机',
+        preview: '文本预览（可编辑）',
+        empty: '剪贴板为空，可在此输入或粘贴文本。',
+        speed: '打字速度',
+        perKey: '每键',
+        fast: '快',
+        slow: '慢（适合 BIOS / 登录界面）',
+        send: '发送',
+        cancel: '取消',
+        sending: '发送中…'
+      },
       shortcut: {
         title: '快捷键',
         custom: '自定义',
@@ -80,6 +101,9 @@ const zh = {
     },
     settings: {
       title: '设置',
+        testmode: {
+          title: '测试模式'
+        },
       appearance: {
         title: '外观',
         language: '语言',

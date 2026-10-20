@@ -3,7 +3,13 @@ import { Select } from 'antd'
 import { useAtom, useAtomValue } from 'jotai'
 import { useTranslation } from 'react-i18next'
 
-import { resolutionAtom, videoDeviceIdAtom, videoStateAtom } from '@renderer/jotai/device'
+import {
+  debugModeAtom,
+  resolutionAtom,
+  videoDeviceIdAtom,
+  videoStateAtom
+} from '@renderer/jotai/device'
+import { fakeCameraStream } from '@renderer/libs/media/fake-camera'
 import { camera } from '@renderer/libs/media/camera'
 import * as storage from '@renderer/libs/storage'
 import type { MediaDevice } from '@renderer/types'
@@ -18,6 +24,7 @@ export const Video = ({ setMsg }: VideoProps): ReactElement => {
   const resolution = useAtomValue(resolutionAtom)
   const [videoState, setVideoState] = useAtom(videoStateAtom)
   const [videoDeviceId, setVideoDeviceId] = useAtom(videoDeviceIdAtom)
+  const [isDebug] = useAtom(debugModeAtom)
 
   const [devices, setDevices] = useState<MediaDevice[]>([])
 
@@ -26,6 +33,11 @@ export const Video = ({ setMsg }: VideoProps): ReactElement => {
   }, [])
 
   async function getDevices(autoOpen: boolean): Promise<void> {
+    if (isDebug) {
+      setDevices([{ videoId: 'fake-camera', videoName: 'Test mode (virtual target)' }])
+      await openCamera('fake-camera')
+      return
+    }
     try {
       const allDevices = await navigator.mediaDevices.enumerateDevices()
       const videoDevices = allDevices.filter((device) => device.kind === 'videoinput')
@@ -84,6 +96,16 @@ export const Video = ({ setMsg }: VideoProps): ReactElement => {
   }
 
   async function openCamera(videoId: string, audioId?: string): Promise<void> {
+    if (isDebug || videoId === 'fake-camera') {
+      const video = document.getElementById('video') as HTMLVideoElement
+      if (!video) return
+
+      video.srcObject = fakeCameraStream()
+      setVideoDeviceId('fake-camera')
+      setVideoState('connected')
+      return
+    }
+
     try {
       await camera.open(videoId, resolution.width, resolution.height, audioId)
 

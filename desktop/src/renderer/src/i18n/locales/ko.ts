@@ -31,6 +31,18 @@ const ko = {
     },
     kekeyboard: {
       paste: '붙여넣기',
+      pasteDialog: {
+              title: 'Paste to target machine',
+              preview: 'Text preview (editable)',
+              empty: 'Clipboard is empty. Type or paste text here.',
+              speed: 'Typing speed',
+              perKey: 'per key',
+              fast: 'Fast',
+              slow: 'Slow (for BIOS / login screens)',
+              send: 'Send',
+              cancel: 'Cancel',
+              sending: 'Sending…'
+            },
       virtualKeyboard: '가상 키보드',
       shortcut: {
         ctrlAltDel: 'Ctrl + Alt + Delete',
@@ -59,6 +71,9 @@ const ko = {
     },
     settings: {
       title: '설정',
+        testmode: {
+          title: 'Test mode'
+        },
       appearance: {
         title: '화면 설정',
         language: '언어',

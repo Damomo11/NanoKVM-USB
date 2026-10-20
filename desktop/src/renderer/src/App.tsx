@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { Result, Spin } from 'antd'
 import clsx from 'clsx'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 import { useMediaQuery } from 'react-responsive'
 
@@ -12,6 +12,7 @@ import { Menu } from '@renderer/components/menu'
 import { Mouse } from '@renderer/components/mouse'
 import { VirtualKeyboard } from '@renderer/components/virtual-keyboard'
 import {
+  debugModeAtom,
   resolutionAtom,
   serialPortStateAtom,
   videoScaleAtom,
@@ -19,9 +20,11 @@ import {
 } from '@renderer/jotai/device'
 import { isKeyboardEnableAtom } from '@renderer/jotai/keyboard'
 import { mouseModeAtom, mouseStyleAtom } from '@renderer/jotai/mouse'
+import { TestConsole } from '@renderer/components/test-console'
 import { camera } from '@renderer/libs/media/camera'
+import { stopFakeCamera } from '@renderer/libs/media/fake-camera'
 import { requestCameraPermission } from '@renderer/libs/media/permission'
-import { getVideoResolution } from '@renderer/libs/storage'
+import { getDebugMode, getVideoResolution } from '@renderer/libs/storage'
 import type { Resolution } from '@renderer/types'
 
 type State = 'loading' | 'success' | 'failed'
@@ -33,6 +36,7 @@ const App = (): ReactElement => {
   const videoScale = useAtomValue(videoScaleAtom)
   const videoState = useAtomValue(videoStateAtom)
   const serialPortState = useAtomValue(serialPortStateAtom)
+  const [, setDebugMode] = useAtom(debugModeAtom)
   const mouseMode = useAtomValue(mouseModeAtom)
   const mouseStyle = useAtomValue(mouseStyleAtom)
   const isKeyboardEnable = useAtomValue(isKeyboardEnableAtom)
@@ -41,15 +45,26 @@ const App = (): ReactElement => {
   const [state, setState] = useState<State>('loading')
 
   useEffect(() => {
+    const debug = getDebugMode()
+    setDebugMode(debug)
+    window.electron.ipcRenderer.invoke(IpcEvents.SET_TEST_MODE, debug)
+
     const resolution = getVideoResolution()
     if (resolution) {
       setResolution(resolution)
+    }
+
+    if (debug) {
+      // test mode needs no camera permission
+      setState('success')
+      return
     }
 
     requestMediaPermissions(resolution)
 
     return (): void => {
       camera.close()
+      stopFakeCamera()
       window.electron.ipcRenderer.invoke(IpcEvents.CLOSE_SERIAL_PORT)
     }
   }, [])
@@ -110,6 +125,7 @@ const App = (): ReactElement => {
       />
 
       <VirtualKeyboard isBigScreen={isBigScreen} />
+      <TestConsole />
     </>
   )
 }

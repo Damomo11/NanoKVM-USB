@@ -17,6 +17,8 @@ const MOUSE_SCROLL_INTERVAL_KEY = 'nanokvm-usb-mouse-scroll-interval'
 const BAUD_RATE_KEY = 'nanokvm-usb-baud-rate'
 const MOUSE_JIGGLER_MODE_KEY = 'nanokvm-usb-mouse-jiggler-mode'
 const KEYBOARD_SHORTCUT_KEY = 'nanokvm-usb-keyboard-shortcuts'
+const PASTE_SPEED_KEY = 'nanokvm-usb-paste-speed'
+const DEBUG_MODE_KEY = 'nanokvm-usb-debug-mode'
 
 export function getLanguage(): string | null {
   return localStorage.getItem(LANGUAGE_KEY)
@@ -191,4 +193,27 @@ export function getShortcuts(): string | null {
 
 export function setShortcuts(shortcuts: string): void {
   localStorage.setItem(KEYBOARD_SHORTCUT_KEY, shortcuts)
+}
+
+export function getPasteSpeed(): number {
+  const speed = localStorage.getItem(PASTE_SPEED_KEY)
+  if (speed) {
+    const value = Number(speed)
+    if (!isNaN(value) && value >= 1 && value <= 200) {
+      return value
+    }
+  }
+  return 20
+}
+
+export function setPasteSpeed(speed: number): void {
+  localStorage.setItem(PASTE_SPEED_KEY, String(speed))
+}
+
+export function getDebugMode(): boolean {
+  return localStorage.getItem(DEBUG_MODE_KEY) === 'true'
+}
+
+export function setDebugMode(enabled: boolean): void {
+  localStorage.setItem(DEBUG_MODE_KEY, enabled ? 'true' : 'false')
 }

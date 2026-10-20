@@ -29,8 +29,29 @@ const pl = {
         cancel: 'Anuluj'
       }
     },
+    debug: {
+          title: 'Test mode',
+          titleOff: 'Test mode',
+          terminal: 'Test console (no hardware)',
+          hint: 'Keyboard output is echoed to this console instead of real hardware.',
+          localInput: 'local input',
+          echoOn: 'echo ON',
+          exit: 'Exit test mode'
+        },
     keyboard: {
       paste: 'Wklej',
+      pasteDialog: {
+              title: 'Paste to target machine',
+              preview: 'Text preview (editable)',
+              empty: 'Clipboard is empty. Type or paste text here.',
+              speed: 'Typing speed',
+              perKey: 'per key',
+              fast: 'Fast',
+              slow: 'Slow (for BIOS / login screens)',
+              send: 'Send',
+              cancel: 'Cancel',
+              sending: 'Sending…'
+            },
       virtualKeyboard: 'Klawiatura',
       shortcut: {
         ctrlAltDel: 'Ctrl + Alt + Delete',
@@ -60,6 +81,9 @@ const pl = {
     },
     settings: {
       title: 'Ustawienia',
+        testmode: {
+          title: 'Test mode'
+        },
       appearance: {
         title: 'Wygląd',
         language: 'Język',

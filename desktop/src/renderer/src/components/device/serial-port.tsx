@@ -4,7 +4,12 @@ import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 
 import { IpcEvents } from '@common/ipc-events'
-import { baudRateAtom, serialPortAtom, serialPortStateAtom } from '@renderer/jotai/device'
+import {
+  baudRateAtom,
+  debugModeAtom,
+  serialPortAtom,
+  serialPortStateAtom
+} from '@renderer/jotai/device'
 import * as storage from '@renderer/libs/storage'
 
 type Option = {
@@ -22,6 +27,7 @@ export const SerialPort = ({ setMsg }: SerialPortProps): ReactElement => {
   const [serialPort, setSerialPort] = useAtom(serialPortAtom)
   const [serialPortState, setSerialPortState] = useAtom(serialPortStateAtom)
   const [baudRate, setBaudRate] = useAtom(baudRateAtom)
+  const [isDebug] = useAtom(debugModeAtom)
 
   const [options, setOptions] = useState<Option[]>([])
   const [isFailed, setIsFailed] = useState(false)
@@ -52,6 +58,11 @@ export const SerialPort = ({ setMsg }: SerialPortProps): ReactElement => {
   async function getSerialPorts(autoOpen: boolean): Promise<void> {
     const serialPorts = await window.electron.ipcRenderer.invoke(IpcEvents.GET_SERIAL_PORTS)
     setOptions(serialPorts.map((sp: string) => ({ value: sp, label: sp })))
+
+    if (isDebug) {
+      await selectSerialPort(serialPorts[0], 57600)
+      return
+    }
 
     if (autoOpen) {
       const port = storage.getSerialPort()

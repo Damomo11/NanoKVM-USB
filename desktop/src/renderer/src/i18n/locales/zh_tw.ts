@@ -32,8 +32,29 @@ const zh_tw = {
         cancel: '取消'
       }
     },
+    debug: {
+          title: 'Test mode',
+          titleOff: 'Test mode',
+          terminal: 'Test console (no hardware)',
+          hint: 'Keyboard output is echoed to this console instead of real hardware.',
+          localInput: 'local input',
+          echoOn: 'echo ON',
+          exit: 'Exit test mode'
+        },
     keyboard: {
       paste: '貼上',
+      pasteDialog: {
+        title: '貼上到目標機',
+        preview: '文字預覽（可編輯）',
+        empty: '剪貼簿為空，可在此輸入或貼上文字。',
+        speed: '打字速度',
+        perKey: '每鍵',
+        fast: '快',
+        slow: '慢（適合 BIOS / 登入畫面）',
+        send: '傳送',
+        cancel: '取消',
+        sending: '傳送中…'
+      },
       virtualKeyboard: '虛擬鍵盤',
       shortcut: {
         ctrlAltDel: 'Ctrl + Alt + Delete',
@@ -61,6 +82,9 @@ const zh_tw = {
       requestPointer: '正在使用滑鼠相對模式，請點擊桌面取得滑鼠指標。'
     },
     settings: {
+      testmode: {
+        title: '測試模式'
+      },
       language: '語言',
       document: '文件',
       download: '下載'

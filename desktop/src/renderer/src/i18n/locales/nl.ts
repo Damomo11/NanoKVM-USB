@@ -37,8 +37,29 @@ const nl = {
         cancel: 'Annuleren'
       }
     },
+    debug: {
+          title: 'Test mode',
+          titleOff: 'Test mode',
+          terminal: 'Test console (no hardware)',
+          hint: 'Keyboard output is echoed to this console instead of real hardware.',
+          localInput: 'local input',
+          echoOn: 'echo ON',
+          exit: 'Exit test mode'
+        },
     keyboard: {
       paste: 'Plakken',
+      pasteDialog: {
+              title: 'Paste to target machine',
+              preview: 'Text preview (editable)',
+              empty: 'Clipboard is empty. Type or paste text here.',
+              speed: 'Typing speed',
+              perKey: 'per key',
+              fast: 'Fast',
+              slow: 'Slow (for BIOS / login screens)',
+              send: 'Send',
+              cancel: 'Cancel',
+              sending: 'Sending…'
+            },
       virtualKeyboard: 'Virtueel toetsenbord',
       shortcut: {
         title: 'Sneltoetsen',
@@ -66,6 +87,9 @@ const nl = {
     },
     settings: {
       title: 'Instellingen',
+        testmode: {
+          title: 'Test mode'
+        },
       appearance: {
         title: 'Uiterlijk',
         language: 'Taal',

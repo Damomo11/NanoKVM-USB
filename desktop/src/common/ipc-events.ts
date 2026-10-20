@@ -14,6 +14,9 @@ export enum IpcEvents {
   SEND_KEYBOARD = 'send-keyboard',
   SEND_MOUSE = 'send-mouse',
 
+  SET_TEST_MODE = 'set-test-mode',
+  TEST_MODE_ECHO = 'test-mode-echo',
+
   UPDATE_AVAILABLE = 'update-available',
   UPDATE_NOT_AVAILABLE = 'update-not-available',
   UPDATE_ERROR = 'update-error',

@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import {
   BadgeInfoIcon,
   CircleArrowUpIcon,
+  FlaskConicalIcon,
   PaletteIcon,
   RotateCcwIcon,
   SettingsIcon
@@ -16,6 +17,7 @@ import * as storage from '@renderer/libs/storage'
 import { About } from './about'
 import { Appearance } from './appearance'
 import { Reset } from './reset'
+import { TestMode } from './test-mode'
 import { Update } from './update'
 
 export const Settings = (): ReactElement => {
@@ -38,6 +40,7 @@ export const Settings = (): ReactElement => {
 
   const tabs = [
     { id: 'appearance', icon: <PaletteIcon size={16} />, component: <Appearance /> },
+    { id: 'testmode', icon: <FlaskConicalIcon size={16} />, component: <TestMode /> },
     { id: 'update', icon: <CircleArrowUpIcon size={16} />, component: <Update /> },
     { id: 'reset', icon: <RotateCcwIcon size={16} />, component: <Reset /> },
     { id: 'about', icon: <BadgeInfoIcon size={16} />, component: <About /> }

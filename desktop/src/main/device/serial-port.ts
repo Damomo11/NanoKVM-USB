@@ -17,7 +17,18 @@ export class SerialPort {
     this.port = null
   }
 
-  async init(options: Options): Promise<void> {
+  // Test mode: pass a fake port instance instead of opening a real one
+  async init(options: Options, fakePort?: { write: (d: Uint8Array) => void; read: () => Promise<{ value: Uint8Array; done: boolean }>; isOpen: boolean; on: (e: string, cb: (...args: unknown[]) => void) => void; removeAllListeners: () => void; close: (cb: (err: Error | null) => void) => void }): Promise<void> {
+    if (fakePort) {
+      this.port = fakePort as unknown as SP
+      this.port.on('close', () => this.handleDisconnect())
+      this.onDisconnect = options.onDisconnect
+      return
+    }
+    return this.initReal(options)
+  }
+
+  private async initReal(options: Options): Promise<void> {
     try {
       if (this.port?.isOpen) {
         await this.close()
