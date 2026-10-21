@@ -107,12 +107,8 @@ class FakeSerialPort {
       }
     }
 
-    if (cmd === CmdEvent.SEND_MS_ABS_DATA || cmd === CmdEvent.SEND_MS_REL_DATA) {
-      if (this.echoListener && payload.length > 0) {
-        const kind = cmd === CmdEvent.SEND_MS_REL_DATA ? 'rel' : 'abs'
-        this.echoListener(`\u200b[mouse ${kind} ${payload.length}B]`)
-      }
-    }
+    // mouse packets are high-frequency (every mousemove); echoing each one floods
+    // the test console. Silently accept them - the virtual target cursor moves on its own.
   }
 
   async read(): Promise<{ value: Uint8Array; done: boolean }> {

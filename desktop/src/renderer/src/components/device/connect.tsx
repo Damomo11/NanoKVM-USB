@@ -3,6 +3,7 @@ import { Modal } from 'antd'
 import { useTranslation } from 'react-i18next'
 
 import { SerialPort } from './serial-port'
+import { TestModeEntry } from './test-mode-entry'
 import { Video } from './video'
 
 export const Connect = (): ReactElement => {
@@ -15,6 +16,7 @@ export const Connect = (): ReactElement => {
       <div className="flex flex-col items-center justify-center gap-3 py-10">
         <Video setMsg={setErrMsg} />
         <SerialPort setMsg={setErrMsg} />
+        <TestModeEntry />
 
         {errMsg && (
           <div className="flex w-[280px]">

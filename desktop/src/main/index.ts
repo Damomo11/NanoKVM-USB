@@ -41,6 +41,10 @@ function createWindow(): void {
   }
 }
 
+// --test-mode flag: enter hardware-free test mode for this session
+const TEST_MODE_FLAG = process.argv.includes('--test-mode')
+;(globalThis as Record<string, unknown>).__NANOKVM_TEST_MODE__ = TEST_MODE_FLAG
+
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.sipeed.usbkvm')
 

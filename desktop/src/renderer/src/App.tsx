@@ -45,22 +45,33 @@ const App = (): ReactElement => {
   const [state, setState] = useState<State>('loading')
 
   useEffect(() => {
-    const debug = getDebugMode()
-    setDebugMode(debug)
-    window.electron.ipcRenderer.invoke(IpcEvents.SET_TEST_MODE, debug)
+    ;(async () => {
+      let debug = getDebugMode()
+      try {
+        const flagged = await window.electron.ipcRenderer.invoke(IpcEvents.IS_TEST_MODE_FLAG)
+        if (flagged === true) debug = true
+      } catch {
+        /* ipc not ready */
+      }
+      setDebugMode(debug)
+      window.electron.ipcRenderer.invoke(IpcEvents.SET_TEST_MODE, debug)
 
-    const resolution = getVideoResolution()
-    if (resolution) {
-      setResolution(resolution)
-    }
+      const resolution = getVideoResolution()
+      if (resolution) {
+        setResolution(resolution)
+      }
 
-    if (debug) {
-      // test mode needs no camera permission
-      setState('success')
-      return
-    }
+      if (debug) {
+        // test mode needs no camera permission
+        setState('success')
+        return
+      }
 
-    requestMediaPermissions(resolution)
+      await requestMediaPermissions(resolution)
+    })().catch((err) => {
+      console.error('init failed:', err)
+      setState('failed')
+    })
 
     return (): void => {
       camera.close()

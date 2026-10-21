@@ -15,6 +15,7 @@ export enum IpcEvents {
   SEND_MOUSE = 'send-mouse',
 
   SET_TEST_MODE = 'set-test-mode',
+  IS_TEST_MODE_FLAG = 'is-test-mode-flag',
   TEST_MODE_ECHO = 'test-mode-echo',
 
   UPDATE_AVAILABLE = 'update-available',

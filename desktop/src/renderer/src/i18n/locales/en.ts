@@ -51,7 +51,8 @@ const en = {
       hint: 'Keyboard output is echoed to this console instead of real hardware.',
       localInput: 'local input',
       echoOn: 'echo ON',
-      exit: 'Exit test mode'
+      exit: 'Exit test mode',
+      noHardware: 'Try all features without hardware'
     },
     keyboard: {
       paste: 'Paste',

@@ -10,6 +10,12 @@ import { fakeSerialPort } from '../device/fake-serial-port'
 let isTestMode = false
 let echoTarget: Electron.WebContents | null = null
 
+// --test-mode launch flag: read argv directly to avoid cross-module ordering issues
+if (process.argv.includes('--test-mode')) {
+  isTestMode = true
+  log.info('[test-mode] enabled via --test-mode')
+}
+
 fakeSerialPort.setEchoListener((text) => {
   log.info('[test-mode] echo:', JSON.stringify(text).slice(0, 120))
   if (isTestMode && echoTarget && !echoTarget.isDestroyed()) {
@@ -30,6 +36,12 @@ export function registerSerialPort(): void {
       echoTarget = _e.sender
     }
     return true
+  })
+  ipcMain.handle(IpcEvents.IS_TEST_MODE_FLAG, () => {
+    if (process.argv.includes('--test-mode')) {
+      isTestMode = true
+    }
+    return isTestMode
   })
 }
 

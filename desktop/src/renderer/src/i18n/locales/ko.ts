@@ -29,7 +29,17 @@ const ko = {
         cancel: '취소'
       }
     },
-    kekeyboard: {
+    debug: {
+      title: '테스트 모드',
+      titleOff: '테스트 모드',
+      terminal: '테스트 콘솔 (하드웨어 불필요)',
+      hint: '키보드 출력은 실제 하드웨어 대신 이 콘솔에 표시됩니다.',
+      localInput: '로컬 입력',
+      echoOn: '에코 켜짐',
+      exit: '테스트 모드 종료',
+      noHardware: '하드웨어 없이 모든 기능 체험'
+    },
+    keyboard: {
       paste: '붙여넣기',
       pasteDialog: {
               title: 'Paste to target machine',

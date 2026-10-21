@@ -50,7 +50,8 @@ const zh = {
       hint: '键盘输出会回显到此控制台，不会发给真实硬件。',
       localInput: '本地输入',
       echoOn: '回显开启',
-      exit: '退出测试模式'
+      exit: '退出测试模式',
+      noHardware: '无需硬件即可体验全部功能'
     },
     keyboard: {
       paste: '粘贴',

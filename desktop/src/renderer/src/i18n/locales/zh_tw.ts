@@ -39,7 +39,8 @@ const zh_tw = {
           hint: 'Keyboard output is echoed to this console instead of real hardware.',
           localInput: 'local input',
           echoOn: 'echo ON',
-          exit: 'Exit test mode'
+          exit: 'Exit test mode',
+          noHardware: '無需硬體即可體驗全部功能'
         },
     keyboard: {
       paste: '貼上',
